@@ -43,10 +43,8 @@ public class User implements UserDetails {
     List<ReviewBoard> reviewBoards = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    List<ChatRoom> chatRooms = new ArrayList<>();
+    List<Room> rooms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    List<ChatUser> chatUsers = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Board> boards = new ArrayList<>();
