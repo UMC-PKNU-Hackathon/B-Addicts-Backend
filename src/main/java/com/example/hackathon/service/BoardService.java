@@ -1,5 +1,6 @@
 package com.example.hackathon.service;
 
+import com.example.hackathon.dto.response.GetBoardListDto;
 import com.example.hackathon.entity.Board;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.repository.BoardRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +30,20 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public List<Board> getAllBoards() {
+    public List<GetBoardListDto> getAllBoards() {
+        List <GetBoardListDto> list = new ArrayList<>();
 
-        return boardRepository.findAll();
+        List<Board> boards = boardRepository.findAll();
+
+        for (Board board : boards) {
+            GetBoardListDto dto = GetBoardListDto.builder()
+                    .title(board.getTitle())
+                    .view(board.getView())
+                    .createdAt(board.getCreatedAt())
+                    .build();
+            list.add(dto);
+        }
+        return list;
     }
 
     public Optional<Board> getBoardById(Long id) {

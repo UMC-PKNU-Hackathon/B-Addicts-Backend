@@ -2,6 +2,7 @@ package com.example.hackathon.controller;
 
 import com.example.hackathon.dto.request.BoardRequestDto;
 import com.example.hackathon.dto.request.CommentRequestDto;
+import com.example.hackathon.dto.response.GetBoardListDto;
 import com.example.hackathon.entity.Board;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.service.BoardService;
@@ -36,10 +37,9 @@ public class BoardController {
     }
 
     @GetMapping("/boards") //전체 조회
-    public ResponseEntity<List<Board>> getAllBoards() {
-        List<Board> boards = boardService.getAllBoards();
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<List<GetBoardListDto>> getAllBoards() {
+        List<GetBoardListDto> getBoardListDtoList = boardService.getAllBoards();
+        return new ResponseEntity<>(getBoardListDtoList, HttpStatus.OK);
     }
 
     @GetMapping("boards/{id}")
