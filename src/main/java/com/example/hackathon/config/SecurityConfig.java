@@ -46,6 +46,7 @@ public class SecurityConfig {
 
                     //User
                     auth.requestMatchers("/users/signup").permitAll();
+                    auth.requestMatchers("/users/login").permitAll();
 
 
 
