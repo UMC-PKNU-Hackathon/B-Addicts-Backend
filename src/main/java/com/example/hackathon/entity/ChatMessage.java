@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,6 +22,6 @@ public class ChatMessage {
 
     private String message;
 
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
 }

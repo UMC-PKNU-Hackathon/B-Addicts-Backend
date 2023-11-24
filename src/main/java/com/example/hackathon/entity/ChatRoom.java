@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +24,9 @@ public class ChatRoom {
 
     // 방 사진
 
-    private Timestamp deadline; // 인원 모집 마감 기간 - 필수
+    private LocalDateTime deadline; // 인원 모집 마감 기간 - 필수
 
-    private Timestamp targetPeriod; // 끊기 목표 기간 - 필수
+    private LocalDateTime targetPeriod; // 끊기 목표 기간 - 필수
 
     private String keyword; // 방 소개 키워드
 
@@ -44,8 +44,11 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     private List<ChatUser> chatUsers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+    private List<Mission> missions = new ArrayList<>();
 
-    public ChatRoom(User user, String chatRoomName, Timestamp deadline, Timestamp targetPeriod, String keyword, String tag, Long chatMembers) {
+
+    public ChatRoom(User user, String chatRoomName, LocalDateTime deadline, LocalDateTime targetPeriod, String keyword, String tag, Long chatMembers) {
         this.user = user;
         this.chatRoomName = chatRoomName;
         this.deadline = deadline;

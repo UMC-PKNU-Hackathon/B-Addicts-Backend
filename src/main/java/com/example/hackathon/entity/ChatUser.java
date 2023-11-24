@@ -1,8 +1,6 @@
 package com.example.hackathon.entity;
 
-import com.example.hackathon.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
