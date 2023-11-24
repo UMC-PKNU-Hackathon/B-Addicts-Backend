@@ -2,6 +2,7 @@ package com.example.hackathon.controller;
 
 import com.example.hackathon.dto.request.LoginRequestDto;
 import com.example.hackathon.dto.request.SignUpRequestDto;
+import com.example.hackathon.dto.response.Address;
 import com.example.hackathon.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -23,10 +24,9 @@ public class UserController {
     /**회원가입
      * /users/signup*/
     @PostMapping("/signup")
-    public ResponseEntity<HttpStatus> signup(@RequestPart("image") MultipartFile file,
-            @RequestPart("info") SignUpRequestDto signupRequestDto) throws IOException {
+    public ResponseEntity<HttpStatus> signup(@RequestBody SignUpRequestDto signupRequestDto) throws IOException {
 
-        userService.signup(file, signupRequestDto);
+        userService.signup(signupRequestDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -37,10 +37,19 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<HttpHeaders> login(@RequestBody LoginRequestDto requestDto) {
 
-
         HttpHeaders headers = userService.login(requestDto);
 
         return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/profile")
+    public ResponseEntity<Address> saveProfileImage(@RequestPart("profile") MultipartFile file) throws IOException {
+
+        Address address = Address.builder()
+                .address(userService.saveProfileImage(file))
+                .build();
+
+        return new ResponseEntity<>(address, HttpStatus.OK);
     }
 
 }

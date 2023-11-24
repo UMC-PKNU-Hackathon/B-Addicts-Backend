@@ -12,6 +12,7 @@ public class SignUpRequestDto {
     private String password;
     private String nickname;
     private String introduction;
+    private String image;
     private List<ToxicDto> toxics = new ArrayList<>();
 
 }
