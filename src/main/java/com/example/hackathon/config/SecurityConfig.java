@@ -49,6 +49,12 @@ public class SecurityConfig {
                     auth.requestMatchers("/users/login").permitAll();
 
 
+                    auth.requestMatchers("/boards").hasAuthority("USER");
+                    auth.requestMatchers("/boards/*").permitAll();
+
+
+
+
 
 
                 })

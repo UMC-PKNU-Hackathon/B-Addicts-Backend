@@ -29,6 +29,7 @@ public class BoardService {
     }
 
     public List<Board> getAllBoards() {
+
         return boardRepository.findAll();
     }
 

@@ -1,9 +1,11 @@
 package com.example.hackathon.controller;
 
 import com.example.hackathon.dto.request.BoardRequestDto;
+import com.example.hackathon.dto.request.CommentRequestDto;
 import com.example.hackathon.entity.Board;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.service.BoardService;
+import com.example.hackathon.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,40 +16,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class BoardController {
     private final BoardService boardService;
-
+    private final CommentService commentService;
     @Autowired
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, CommentService commentService) {
         this.boardService = boardService;
+        this.commentService= commentService;
     }
 
-
-
-    @PostMapping("/boards")
+    @PostMapping("/boards") //작성
     public ResponseEntity<HttpStatus> createBoard(
             @AuthenticationPrincipal User user,
             @RequestBody BoardRequestDto boardRequestDto) {
         boardService.createBoard(user, boardRequestDto.getTitle(), boardRequestDto.getContent());
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/boards")
-    public ResponseEntity<List<Board>> getAllBoards(
-            @RequestBody BoardRequestDto boardRequestDto) {
+    @GetMapping("/boards") //전체 조회
+    public ResponseEntity<List<Board>> getAllBoards() {
         List<Board> boards = boardService.getAllBoards();
 
-        return new ResponseEntity<>(boards, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("boards/{id}")
     public ResponseEntity<Board> getBoardById(@PathVariable Long id) {
         Optional<Board> optionalBoard = boardService.getBoardById(id);
 
-        return optionalBoard.map(board -> new ResponseEntity<>(board, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -64,6 +63,22 @@ public class BoardController {
         boardService.deleteBoard(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    @PostMapping("boards/{id}/comments")
+    public ResponseEntity<HttpStatus> createComment(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user,
+            @RequestBody CommentRequestDto commentRequestDto){
+
+        commentService.createComment(user, boardService.getBoardById(id).get(), commentRequestDto.getContent());
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+
+
 
 
 
