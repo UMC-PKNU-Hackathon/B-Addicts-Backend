@@ -3,6 +3,7 @@ package com.example.hackathon.service;
 import com.example.hackathon.dto.request.LoginRequestDto;
 import com.example.hackathon.dto.request.SignUpRequestDto;
 import com.example.hackathon.dto.request.ToxicDto;
+import com.example.hackathon.dto.response.Address;
 import com.example.hackathon.entity.Toxic;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.jwt.JwtProvider;
@@ -63,16 +64,18 @@ public class UserService {
         toxicRepository.saveAll(toxics);
     }
 
-    public HttpHeaders login(LoginRequestDto loginRequestDto) {
+    public Address login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findById(loginRequestDto.getUserId()).orElseThrow();
         String password = loginRequestDto.getPassword();
 
         if(!checkPassword(user, password))
             throw new RuntimeException();
 
-        HttpHeaders headers = createHeaders(user.getUserId(), user.getRoles());
+        Address address = Address.builder()
+                .address("Bearer " + jwtProvider.createAccessToken(loginRequestDto.getUserId(), user.getRoles()))
+                .build();
 
-        return headers;
+        return address;
     }
 
     private boolean checkPassword(User user, String password) {

@@ -57,6 +57,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/review-boards").hasAuthority("USER");
                     auth.requestMatchers("/review-boards/*").hasAuthority("USER");
 
+                    auth.requestMatchers("/comments").hasAuthority("USER");
+
 
                 })
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
