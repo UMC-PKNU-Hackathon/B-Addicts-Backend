@@ -1,7 +1,10 @@
 package com.example.hackathon.service;
 
+import com.example.hackathon.dto.response.GetBoardDto;
 import com.example.hackathon.dto.response.GetBoardListDto;
+import com.example.hackathon.dto.response.GetReviewBoardDto;
 import com.example.hackathon.entity.Board;
+import com.example.hackathon.entity.ReviewBoard;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +49,25 @@ public class BoardService {
         return list;
     }
 
-    public Optional<Board> getBoardById(Long id) {
-        Optional<Board> optionalBoard = boardRepository.findById(id);
-        optionalBoard.ifPresent(board -> {
-            board.setView(board.getView() + 1);
-            boardRepository.save(board);
-        });
-        return boardRepository.findById(id);
+    public GetBoardDto getBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow();
+
+        return GetBoardDto.builder()
+                .title(board.getTitle())
+                .view(board.getView())
+                .createdAt(board.getCreatedAt())
+                .build();
+
     }
 
-    public void updateBoard(Long id, String title, String content) {
-        Optional<Board> optionalBoard = boardRepository.findById(id);
-        if (optionalBoard.isPresent()) {
-            Board board = optionalBoard.get();
-            board.setTitle(title);
-            board.setContent(content);
-            boardRepository.save(board);
-        }
+    public GetBoardDto updateBoard(Long id, String title, String content) {
+        Board board = boardRepository.findById(id).orElseThrow();
+
+        return GetBoardDto.builder()
+                .title(board.getTitle())
+                .view(board.getView())
+                .createdAt(board.getCreatedAt())
+                .build();
     }
 
     public void deleteBoard(Long id) {

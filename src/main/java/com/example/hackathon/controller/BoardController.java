@@ -2,6 +2,7 @@ package com.example.hackathon.controller;
 
 import com.example.hackathon.dto.request.BoardRequestDto;
 import com.example.hackathon.dto.request.CommentRequestDto;
+import com.example.hackathon.dto.response.GetBoardDto;
 import com.example.hackathon.dto.response.GetBoardListDto;
 import com.example.hackathon.entity.Board;
 import com.example.hackathon.entity.User;
@@ -42,19 +43,20 @@ public class BoardController {
     }
 
     @GetMapping("boards/{id}")
-    public ResponseEntity<Board> getBoardById(@PathVariable Long id) {
-        Optional<Board> optionalBoard = boardService.getBoardById(id);
+    public ResponseEntity<GetBoardDto> getBoard(@PathVariable Long id) {
+        GetBoardDto dto = boardService.getBoard(id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 
     @PutMapping("boards/{id}")
-    public ResponseEntity<Board> updateBoard(
+    public ResponseEntity<GetBoardDto> updateBoard(
             @PathVariable Long id,
             @RequestBody BoardRequestDto boardRequestDto) {
-        boardService.updateBoard(id, boardRequestDto.getTitle(), boardRequestDto.getContent());
-        return new ResponseEntity<>(HttpStatus.OK);
+        GetBoardDto dto = boardService.updateBoard(id, boardRequestDto.getTitle(), boardRequestDto.getContent());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @DeleteMapping("boards/{id}")
@@ -64,16 +66,6 @@ public class BoardController {
     }
 
 
-    @PostMapping("boards/{id}/comments")
-    public ResponseEntity<HttpStatus> createComment(
-            @PathVariable Long id,
-            @AuthenticationPrincipal User user,
-            @RequestBody CommentRequestDto commentRequestDto){
-
-        commentService.createComment(user, boardService.getBoardById(id).get(), commentRequestDto.getContent());
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
 
 

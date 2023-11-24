@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class GetReviewBoardDto {
+
     private String nickname;
     private String title;
     private String startedAt;

@@ -50,6 +50,10 @@ public class SecurityConfig {
                     auth.requestMatchers("/users/profile").permitAll();
 
 
+                    auth.requestMatchers("/boards").hasAuthority("USER");
+                    auth.requestMatchers("/boards/*").hasAuthority("USER");
+
+
                     auth.requestMatchers("/review-boards").hasAuthority("USER");
                     auth.requestMatchers("/review-boards/*").hasAuthority("USER");
 
