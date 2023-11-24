@@ -1,6 +1,7 @@
 package com.example.hackathon.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,6 +49,7 @@ public class ChatRoom {
     private List<Mission> missions = new ArrayList<>();
 
 
+    @Builder
     public ChatRoom(User user, String chatRoomName, LocalDateTime deadline, LocalDateTime targetPeriod, String keyword, String tag, Long chatMembers) {
         this.user = user;
         this.chatRoomName = chatRoomName;

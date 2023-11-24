@@ -14,11 +14,11 @@ public class Mission {
 
     private String content;
 
-    private boolean value;
+    private String value;
 
     private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id")
-    private Mission mission;
+    private ChatRoom chatRoom;
 }

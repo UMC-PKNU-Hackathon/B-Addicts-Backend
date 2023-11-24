@@ -1,6 +1,7 @@
 package com.example.hackathon.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class ChatUser {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
     public ChatUser(ChatRoom chatRoom, User user) {
         this.chatRoom = chatRoom;
         this.user = user;
