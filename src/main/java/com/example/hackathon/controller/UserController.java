@@ -35,11 +35,11 @@ public class UserController {
     /**로그인
      * /users/login*/
     @PostMapping("/login")
-    public ResponseEntity<HttpHeaders> login(@RequestBody LoginRequestDto requestDto) {
+    public ResponseEntity<Address> login(@RequestBody LoginRequestDto requestDto) {
 
-        HttpHeaders headers = userService.login(requestDto);
+        Address address = userService.login(requestDto);
 
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(address, HttpStatus.OK);
     }
 
     @PostMapping("/profile")

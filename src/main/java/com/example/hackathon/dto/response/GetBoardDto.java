@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -15,4 +17,8 @@ public class GetBoardDto {
     private String content;
     private int view;
     private LocalDateTime createdAt;
+
+    private List<GetCommentDto> commentList = new ArrayList<>();
+
+
 }

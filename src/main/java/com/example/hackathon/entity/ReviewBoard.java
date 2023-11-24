@@ -46,7 +46,6 @@ public class ReviewBoard {
 
     private String keyword;
 
-    @Column(columnDefinition = "INT default 0")
     private int good;
 
     @Builder
@@ -58,5 +57,6 @@ public class ReviewBoard {
         this.before = before;
         this.after = after;
         this.keyword = keyword;
+        this.good = 0;
     }
 }
