@@ -2,8 +2,11 @@ package com.example.hackathon.service;
 
 import com.example.hackathon.dto.request.LoginRequestDto;
 import com.example.hackathon.dto.request.SignUpRequestDto;
+import com.example.hackathon.dto.request.ToxicDto;
+import com.example.hackathon.entity.Toxic;
 import com.example.hackathon.entity.User;
 import com.example.hackathon.jwt.JwtProvider;
+import com.example.hackathon.repository.ToxicRepository;
 import com.example.hackathon.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final S3Service s3Service;
     private final JwtProvider jwtProvider;
+    private final ToxicRepository toxicRepository;
 
     public void signup(MultipartFile file, SignUpRequestDto signUpRequestDto) throws IOException {
 
@@ -43,7 +47,21 @@ public class UserService {
                 .profileImage(imageAddress)
                 .build();
 
+        List<Toxic> toxics = new ArrayList<>();
+
+        for(ToxicDto dto : signUpRequestDto.getToxics()) {
+            Toxic toxic = Toxic.builder()
+                    .keyword(dto.getKeyword())
+                    .userId(user.getUserId())
+                    .degree(dto.getDegree())
+                    .user(user)
+                    .build();
+            toxics.add(toxic);
+        }
+
         userRepository.save(user);
+
+        toxicRepository.saveAll(toxics);
     }
 
     public HttpHeaders login(LoginRequestDto loginRequestDto) {
