@@ -31,20 +31,19 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final ToxicRepository toxicRepository;
 
-    public void signup(MultipartFile file, SignUpRequestDto signUpRequestDto) throws IOException {
+    public void signup(SignUpRequestDto signUpRequestDto) throws IOException {
 
         String password = passwordEncoder.encode(signUpRequestDto.getPassword());
         List<String> roles = new ArrayList<>();
         roles.add("USER");
 
-        String imageAddress = s3Service.saveSignature(file);
 
         User user = User.builder()
                 .userId(signUpRequestDto.getUserId())
                 .password(password)
                 .roles(roles)
                 .nickname(signUpRequestDto.getNickname())
-                .profileImage(imageAddress)
+                .profileImage(signUpRequestDto.getImage())
                 .build();
 
         List<Toxic> toxics = new ArrayList<>();
@@ -86,5 +85,12 @@ public class UserService {
         headers.add("Authorization", "Bearer " + jwtProvider.createAccessToken(userId, roles)); // access token
 
         return headers;
+    }
+
+    public String saveProfileImage(MultipartFile file) throws IOException{
+
+        String imageAddress = s3Service.saveSignature(file);
+
+        return imageAddress;
     }
 }

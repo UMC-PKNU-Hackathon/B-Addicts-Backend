@@ -47,8 +47,11 @@ public class SecurityConfig {
                     //User
                     auth.requestMatchers("/users/signup").permitAll();
                     auth.requestMatchers("/users/login").permitAll();
+                    auth.requestMatchers("/users/profile").permitAll();
 
 
+                    auth.requestMatchers("/review-boards").hasAuthority("USER");
+                    auth.requestMatchers("/review-boards/*").hasAuthority("USER");
 
 
                 })
